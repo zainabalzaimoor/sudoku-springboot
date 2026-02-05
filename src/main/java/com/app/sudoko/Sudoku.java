@@ -61,6 +61,7 @@ public class Sudoku {
     // Save solution in simple format
     public void saveSolution(String filename) {
         Path solutionPath = Paths.get("src/main/resources/puzzles/", filename);
+
         StringBuilder sb = new StringBuilder();
         for (int row = 0; row < 9; row++) {
             for (int col = 0; col < 9; col++) {
