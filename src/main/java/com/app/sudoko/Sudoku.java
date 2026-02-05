@@ -14,7 +14,7 @@ public class Sudoku {
     private final Path path;
 
     public Sudoku(String filename) {
-        this.path = Paths.get(filename);
+        this.path = Paths.get("src/main/resources/puzzles/" + filename);
     }
 
     public SudokuCell[][] getBoard() {
