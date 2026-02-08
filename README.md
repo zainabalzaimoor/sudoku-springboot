@@ -4,7 +4,7 @@
 
 ---
 
-##  Features
+## ⭐ Features
 
 - **Dual Modes:** Play interactively in the terminal (`Main.java`) or use the Spring Boot REST API.
 - **Difficulty Levels:** 🟢 Beginner | 🟡 Easy | 🟠 Medium | 🔴 Hard  
@@ -76,5 +76,6 @@ You can interact with the solver programmatically while the Spring Boot app is r
   +-------+-------+-------+
 
 ---
+```
 
 ✅ **Have fun and enjoy solving!**
