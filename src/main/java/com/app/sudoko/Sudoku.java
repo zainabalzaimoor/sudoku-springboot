@@ -28,31 +28,43 @@ public class Sudoku {
         }
 
         try {
-            List<String> lines = Files.readAllLines(path);
+            List<String> allLines = Files.readAllLines(path);
+            // Filter out the border lines (lines starting with +)
+            List<String> dataLines = allLines.stream()
+                    .filter(line -> !line.contains("+"))
+                    .toList();
 
-            if (lines.size() != 9) {
-                throw new InvalidCharacterException("Puzzle must have 9 rows");
+            if (dataLines.size() != 9) {
+                throw new InvalidCharacterException("Puzzle must have 9 data rows (excluding borders)");
             }
 
             for (int row = 0; row < 9; row++) {
-                String line = lines.get(row).trim();
-                if (line.length() != 9) {
-                    throw new InvalidCharacterException("Each row must have 9 digits");
+                String line = dataLines.get(row);
+
+                // Extract digits and dots, ignoring pipes '|' and spaces
+                // This regex keeps only 0-9 and '.'
+                String cleanLine = line.replaceAll("[^0-9.]", "");
+
+                if (cleanLine.length() != 9) {
+                    throw new InvalidCharacterException("Row " + (row + 1) + " must contain exactly 9 numbers/dots");
                 }
 
                 for (int col = 0; col < 9; col++) {
-                    char c = line.charAt(col);
-                    if (!Character.isDigit(c)) {
-                        throw new InvalidCharacterException(
-                                "Invalid character '" + c + "' at row " + (row + 1) + ", col " + (col + 1)
-                        );
+                    char c = cleanLine.charAt(col);
+                    int value;
+
+                    if (c == '.') {
+                        value = 0;
+                    } else if (Character.isDigit(c)) {
+                        value = Character.getNumericValue(c);
+                    } else {
+                        throw new InvalidCharacterException("Invalid character '" + c + "' at row " + (row + 1));
                     }
-                    int value = Character.getNumericValue(c);
+
                     boolean fixed = value != 0;
                     board[row][col] = new SudokuCell(value, fixed);
                 }
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,16 +72,39 @@ public class Sudoku {
 
     // Save solution in simple format
     public void saveSolution(String filename) {
+        // Defines the path in resources/puzzles/
         Path solutionPath = Paths.get("src/main/resources/puzzles/", filename);
 
         StringBuilder sb = new StringBuilder();
+        String horizontalDivider = "+-------+-------+-------+";
+
         for (int row = 0; row < 9; row++) {
-            for (int col = 0; col < 9; col++) {
-                sb.append(board[row][col].getValue());
+            // Add horizontal grid line every 3 rows
+            if (row % 3 == 0) {
+                sb.append(horizontalDivider).append(System.lineSeparator());
             }
-            sb.append(System.lineSeparator());
+
+            for (int col = 0; col < 9; col++) {
+                // Add vertical grid line every 3 columns
+                if (col % 3 == 0) {
+                    sb.append("| ");
+                }
+
+                // Append the cell value (and a space for formatting)
+                sb.append(board[row][col].getValue()).append(" ");
+            }
+
+            // Close the row with a final pipe and move to new line
+            sb.append("|").append(System.lineSeparator());
         }
+
+        // Add the final bottom divider
+        sb.append(horizontalDivider).append(System.lineSeparator());
+
         try {
+            // Ensure the directory exists before writing
+            Files.createDirectories(solutionPath.getParent());
+
             Files.writeString(solutionPath, sb.toString());
             System.out.println("Solution saved to " + solutionPath.toAbsolutePath());
         } catch (IOException e) {
@@ -139,4 +174,5 @@ public class Sudoku {
         }
         return copy;
     }
+
 }
