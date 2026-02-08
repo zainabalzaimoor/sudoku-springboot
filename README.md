@@ -1,10 +1,10 @@
-# 🧩 Sudoku Challenge (CLI & REST API)
+# 🧩 Sudoku Game (CLI & REST API)
 
 **Play Sudoku in your console or solve puzzles via REST API!** This Spring Boot application features a backtracking algorithm to solve puzzles and a fully interactive scoring system.
 
 ---
 
-## 🎮 Features
+##  Features
 
 - **Dual Modes:** Play interactively in the terminal (`Main.java`) or use the Spring Boot REST API.
 - **Difficulty Levels:** 🟢 Beginner | 🟡 Easy | 🟠 Medium | 🔴 Hard  
@@ -58,6 +58,7 @@ You can interact with the solver programmatically while the Spring Boot app is r
 
 ## Example Board
 
+```text
 ======== Puzzle 1 ========
     1 2 3   4 5 6   7 8 9
   +-------+-------+-------+
