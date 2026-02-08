@@ -54,7 +54,9 @@ You can interact with the solver programmatically while the Spring Boot app is r
 
 ---
 
-## 🎨 Example Board
+---
+
+## Example Board
 
 ======== Puzzle 1 ========
     1 2 3   4 5 6   7 8 9
